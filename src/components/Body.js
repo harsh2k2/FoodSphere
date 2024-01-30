@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import { SWIGGY_API_URL } from "../utils/constants";
 
 const Body = () => {
   // local state variable
@@ -18,21 +19,51 @@ const Body = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.3272146&lng=76.8617008&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-      // "https://foodfire.onrender.com/api/restaurants?lat=30.3272146&lng=76.8617008&page_type=DESKTOP_WEB_LISTING"
-    );
+  // async function getRestaurant to fetch Swiggy API data due to lazy loading
+  async function fetchData() {
+    // handle the error using try... catch
+    try {
+      const response = await fetch(SWIGGY_API_URL);
+      const json = await response.json();
 
-    const json = await data.json();
+      // initialize checkJsonData() function to check Swiggy Restaurant data
+      async function checkJsonData(jsonData) {
+        for (let i = 0; i < jsonData?.data?.cards.length; i++) {
+          // initialize checkData for Swiggy Restaurant data
+          let checkData =
+            jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
+              ?.restaurants;
 
-    setListOfRestaurant(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurant(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
+          // if checkData is not undefined then return it
+          if (checkData !== undefined) {
+            return checkData;
+          }
+        }
+      }
+
+      // call the checkJsonData() function which return Swiggy Restaurant data
+      const resData = await checkJsonData(json);
+
+      // update the state variable restaurants with Swiggy API data
+      setListOfRestaurant(resData);
+      setFilteredRestaurant(resData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // const fetchData = async () => {
+  //   const data = await fetch(SWIGGY_API_URL);
+
+  //   const json = await data.json();
+
+  //   setListOfRestaurant(
+  //     json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+  //   );
+  //   setFilteredRestaurant(
+  //     json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+  //   );
+  // };
 
   //conditional rendering
   if (listOfRestaurants.length === 0) {
