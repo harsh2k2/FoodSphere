@@ -6,12 +6,13 @@ export const CDN_URL =
 
 // Swiggy API to get Restaurant data
 // export const SWIGGY_API_URL = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.3272146&lng=76.8617008&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
-export const SWIGGY_API_URL = "https://foodfire.onrender.com/api/restaurants?lat=30.3272146&lng=76.8617008&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
- 
+export const SWIGGY_API_URL =
+  "https://foodfire.onrender.com/api/restaurants?lat=30.3272146&lng=76.8617008&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
 // Swiggy API to get Restaurant Menu
 // export const MENU_API = "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=30.3272146&lng=76.8617008&restaurantId=";
-export const MENU_API = "https://foodfire.onrender.com/api/menu?page-type=REGULAR_MENU&complete-menu=true&lat=30.3272146&lng=76.8617008&restaurantId=";
+export const MENU_API =
+  "https://foodfire.onrender.com/api/menu?page-type=REGULAR_MENU&complete-menu=true&lat=30.3272146&lng=76.8617008&restaurantId=";
 
 // menu items api card type key
 export const MENU_ITEM_TYPE_KEY =
